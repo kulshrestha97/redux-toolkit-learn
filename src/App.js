@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import Todo from './todos/Todo';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodos, loadTodos } from './todos/todosSlice';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [value, setCurrentValue] = useState('')
+  const dispatch = useDispatch()
+  const handleDispatch = () => {
+    dispatch(addTodos(value, false))
+  }
+  useEffect(() => {
+    dispatch(loadTodos())
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <Todo/>
+      <input type={'text'} placeholder={"Add more items..."} onChange={(ev) => setCurrentValue(ev.target.value)} />
+      <button onClick={handleDispatch}>Add value</button>
     </div>
   );
 }
